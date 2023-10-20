@@ -86,6 +86,13 @@ class _HomePageState extends State<HomePage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                Text('imc: ', style: TextStyle(fontSize: 18)),
+                                Text((imc).toStringAsFixed(2), style: TextStyle(fontSize: 18)),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
                                 Text('peso: ', style: TextStyle(fontSize: 18)),
                                 Text((pessoa.peso).toString(), style: TextStyle(fontSize: 18)),
                               ],
