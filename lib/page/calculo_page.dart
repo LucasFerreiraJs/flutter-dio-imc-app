@@ -7,14 +7,14 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CalculoPage extends StatefulWidget {
+  const CalculoPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CalculoPage> createState() => _CalculoPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CalculoPageState extends State<CalculoPage> {
   final nomeEC = TextEditingController();
   final pesoEC = TextEditingController();
   final alturaEC = TextEditingController();
