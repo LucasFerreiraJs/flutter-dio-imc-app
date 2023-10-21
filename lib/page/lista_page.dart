@@ -3,47 +3,41 @@ import 'dart:math';
 import 'package:calculo_imc/shared/enum/enum_status_peso.dart';
 import 'package:calculo_imc/shared/models/imc_model.dart';
 import 'package:calculo_imc/shared/models/pessoa_model.dart';
+import 'package:calculo_imc/shared/repository/imc_repository.dart';
 import 'package:calculo_imc/widget/imc_gauge.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ListaPage extends StatefulWidget {
-  const ListaPage({super.key});
+  final BuildContext ctx;
+
+  const ListaPage({super.key, required this.ctx});
 
   @override
-  State<ListaPage> createState() => _ListaPageState();
+  State<ListaPage> createState() => _ListaPageState(ctx: ctx);
 }
 
 class _ListaPageState extends State<ListaPage> {
-  final List<ImcModel> imcList = [
-    ImcModel(peso: 70, altura: 1.71),
-    ImcModel(peso: 80, altura: 1.82),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-    ImcModel(peso: 90, altura: 1.93),
-  ];
+  final BuildContext ctx;
+  late ImcRepository imcRepository;
+
+  _ListaPageState({required this.ctx});
 
   var formatter = NumberFormat.simpleCurrency(
     locale: 'pt_BR',
   );
+
+  @override
+  void initState() {
+    super.initState();
+    imcRepository = Provider.of<ImcRepository>(ctx, listen: false);
+
+    // for (var item in imcList) {
+    //   imcRepository.addImc(item);
+    // }
+  }
 
   @override
   void dispose() {
@@ -66,7 +60,7 @@ class _ListaPageState extends State<ListaPage> {
                   DataColumn(label: Text('IMC')),
                 ],
                 rows: [
-                  for (var imcItem in imcList)
+                  for (var imcItem in imcRepository.getImcs())
                     DataRow(cells: [
                       DataCell(Text(imcItem.peso.toString())),
                       DataCell(Text(imcItem.altura.toString())),

@@ -4,8 +4,9 @@ class ImcModel {
   final num peso;
   final num altura;
   late num imc;
+  int? id;
 
-  ImcModel({required this.peso, required this.altura}) {
+  ImcModel({required this.peso, required this.altura, this.id}) {
     if (this.peso != 0 && this.altura != 0) {
       imc = calcularImc();
     } else {

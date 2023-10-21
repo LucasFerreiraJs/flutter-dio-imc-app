@@ -1,22 +1,37 @@
 import 'package:calculo_imc/page/calculo_page.dart';
 import 'package:calculo_imc/page/lista_page.dart';
+import 'package:calculo_imc/shared/repository/imc_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var dir = await getApplicationDocumentsDirectory();
+  Hive.init(dir.path);
+  await ImcRepository.load();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ImcRepository()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/calculo': (context) => TabBarApp(),
-        '/lista': (context) => CalculoPage(),
+        '/calculo': (context) => CalculoPage(ctx: context),
+        '/lista': (context) => ListaPage(ctx: context),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
@@ -56,11 +71,11 @@ class _TabBarAppState extends State<TabBarApp> {
   Widget _buildBody() {
     switch (_currentIndex) {
       case 0:
-        return CalculoPage();
+        return CalculoPage(ctx: context);
       case 1:
-        return ListaPage();
+        return ListaPage(ctx: context);
       default:
-        return CalculoPage();
+        return CalculoPage(ctx: context);
     }
   }
 
